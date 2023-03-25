@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_gravity="center"
+    android:background="@color/black"
+    android:padding="20dp">
+
+    <Button
+        android:id="@+id/izquierda"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="◀"
+        android:textSize="36dp"
+        android:paddingRight="24dp"
+        android:background="@drawable/izquierda"
+        />
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+        <Button
+            android:id="@+id/avanza"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="▲"
+            android:textSize="36dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/izquierda" />
+        <Button
+            android:id="@+id/stop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="◙"
+            android:textSize="36dp"
+            android:background="@drawable/izquierda" />
+        <Button
+            android:id="@+id/atras"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="▼"
+            android:textSize="36dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/izquierda" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/derecha"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="▶"
+        android:textSize="36dp"
+        android:paddingLeft="24dp"
+        android:background="@drawable/izquierda"
+        />
+
+    <Space
+        android:layout_width="100dp"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <Button
+            android:id="@+id/bluetooth"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="BT"
+            android:textSize="24dp"
+            android:background="@drawable/izquierda"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="160dp"/>
+        <Button
+            android:id="@+id/rgb"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="RGB"
+            android:textSize="20dp"
+            android:background="@drawable/izquierda"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="100dp"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+        <Button
+            android:id="@+id/ataque1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="A"
+            android:textSize="36dp"
+            android:background="@drawable/izquierda"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        >
+        <Button
+            android:id="@+id/ataque2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="B"
+            android:textSize="36dp"
+            android:background="@drawable/izquierda"
+            />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+
+    </LinearLayout>
+</LinearLayout>
