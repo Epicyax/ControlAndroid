@@ -19,9 +19,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    private val DEVICE_ADDRESS = "34:43:01:05:90:22" // Dirección MAC de tu dispositivo Bluetooth (reemplázalo por el tuyo)
+    private val DEVICE_ADDRESS = "34:43:01:05:90:22" // Dirección MAC del dispositivo Bluetooth
     private val PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // Identificador UUID para el servicio SPP (Serial Port Profile)
-    //private var device: BluetoothDevice? = null
     val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(DEVICE_ADDRESS)
     private var socket: BluetoothSocket? = null
     private lateinit var btnConnect: Button
@@ -29,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Force landscape mode
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         setContentView(R.layout.activity_main)
@@ -58,18 +56,16 @@ class MainActivity : AppCompatActivity() {
         val btn7 = findViewById<Button>(R.id.ataque2)
         btn7.setOnClickListener { v: View -> sendCommand("2") }
 
-        // Hide the status bar.
+        val btn8 = findViewById<Button>(R.id.stop)
+        btn8.setOnClickListener { v: View -> sendCommand("P") }
+
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        // Remember that you should never show the action bar if the
-        // status bar is hidden, so hide that too if necessary.
+
         actionBar?.hide()
     }
 
     private fun connect() {
         try {
-            // val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-            // device = bluetoothAdapter.getRemoteDevice(DEVICE_ADDRESS)
-            // val device2 = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(DEVICE_ADDRESS)
             if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.BLUETOOTH_CONNECT
@@ -78,9 +74,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "No permission", Toast.LENGTH_LONG).show()
                 return
             }
-            // socket = device?.createInsecureRfcommSocketToServiceRecord(PORT_UUID)
             socket = device.createRfcommSocketToServiceRecord(PORT_UUID)
-            //socket?.connect()
 
             socket?.connect()
             Log.d(TAG, "Connected")
