@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Control</string>
+    <string name="left">◀</string>
+    <string name="right">▶</string>
+    <string name="down">▼</string>
+    <string name="up">▲</string>
+    <string name="stop">◙</string>
+    <string name="bluetooth">BT</string>
+    <string name="leds">LED</string>
+    <string name="atk1">A</string>
+    <string name="atk2">B</string>
 </resources>

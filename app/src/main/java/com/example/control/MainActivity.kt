@@ -1,6 +1,7 @@
 package com.example.control
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
@@ -8,7 +9,9 @@ import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -25,6 +28,59 @@ class MainActivity : AppCompatActivity() {
     private var socket: BluetoothSocket? = null
     private lateinit var btnConnect: Button
 
+    private val handler = Handler()
+
+    private val butAttack1 = object : Runnable {
+        override fun run() {
+            sendCommand("1")
+            handler.postDelayed(this, 10)
+            println("Ataque 1")
+        }
+    }
+
+    private val butAttack2 = object : Runnable {
+        override fun run() {
+            sendCommand("2")
+            handler.postDelayed(this, 10)
+            println("Ataque 2")
+        }
+    }
+
+    private val butLeft = object : Runnable {
+        override fun run() {
+            sendCommand("A")
+            handler.postDelayed(this, 10)
+            println("Izquierda")
+        }
+    }
+
+    private val butUp = object : Runnable {
+        override fun run() {
+            sendCommand("W")
+            handler.postDelayed(this, 10)
+            println("Adelante")
+        }
+    }
+
+    private val butRight = object : Runnable {
+        override fun run() {
+            sendCommand("D")
+            handler.postDelayed(this, 10)
+            println("Derecha")
+        }
+    }
+
+    private val butDown = object : Runnable {
+        override fun run() {
+            sendCommand("S")
+            handler.postDelayed(this, 10)
+            println("Atras")
+        }
+    }
+
+
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,29 +91,97 @@ class MainActivity : AppCompatActivity() {
         btnConnect = findViewById(R.id.bluetooth)
         btnConnect.setOnClickListener { v: View -> connect() }
 
-        val btn1 = findViewById<Button>(R.id.avanza)
-        btn1.setOnClickListener { v: View -> sendCommand("W") }
-
-        val btn2 = findViewById<Button>(R.id.izquierda)
-        btn2.setOnClickListener { v: View -> sendCommand("A") }
-
-        val btn3 = findViewById<Button>(R.id.atras)
-        btn3.setOnClickListener { v: View -> sendCommand("S") }
-
-        val btn4 = findViewById<Button>(R.id.derecha)
-        btn4.setOnClickListener { v: View -> sendCommand("D") }
+        val up = findViewById<Button>(R.id.avanza)
+        up.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handler.postDelayed(butUp, 10)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    handler.removeCallbacks(butUp)
+                    true
+                }
+                else -> false
+            }
+        }
+        val left = findViewById<Button>(R.id.izquierda)
+        left.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handler.postDelayed(butLeft, 10)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    handler.removeCallbacks(butLeft)
+                    true
+                }
+                else -> false
+            }
+        }
+        val down = findViewById<Button>(R.id.atras)
+        down.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handler.postDelayed(butDown, 10)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    handler.removeCallbacks(butDown)
+                    true
+                }
+                else -> false
+            }
+        }
+        val right = findViewById<Button>(R.id.derecha)
+        right.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handler.postDelayed(butRight, 10)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    handler.removeCallbacks(butRight)
+                    true
+                }
+                else -> false
+            }
+        }
 
         val btn5 = findViewById<Button>(R.id.rgb)
         btn5.setOnClickListener { v: View -> sendCommand("L") }
 
-        val btn6 = findViewById<Button>(R.id.ataque1)
-        btn6.setOnClickListener { v: View -> sendCommand("1") }
 
-        val btn7 = findViewById<Button>(R.id.ataque2)
-        btn7.setOnClickListener { v: View -> sendCommand("2") }
+        val atk1 = findViewById<Button>(R.id.ataque1)
+        atk1.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handler.postDelayed(butAttack1, 10)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    handler.removeCallbacks(butAttack1)
+                    true
+                }
+                else -> false
+            }
+        }
 
-        val btn8 = findViewById<Button>(R.id.stop)
-        btn8.setOnClickListener { v: View -> sendCommand("P") }
+        val atk2 = findViewById<Button>(R.id.ataque2)
+        atk2.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    handler.postDelayed(butAttack2, 10)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    handler.removeCallbacks(butAttack2)
+                    true
+                }
+                else -> false
+            }
+        }
+
 
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
 
@@ -87,16 +211,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendCommand(command: String) {
         if (socket == null) {
-            Toast.makeText(applicationContext, "Not connected", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Not connected", Toast.LENGTH_SHORT).show()
             return
         }
 
         try {
             socket?.outputStream?.write(command.toByteArray())
-            Toast.makeText(applicationContext, "Command sent: $command", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Command sent: $command", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             Log.e(TAG, "Error sending command: ${e.message}")
-            Toast.makeText(applicationContext, "Error sending command: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Error sending command: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -107,5 +231,15 @@ class MainActivity : AppCompatActivity() {
         } catch (e: IOException) {
             Log.e(TAG, "Error closing socket: ${e.message}")
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handler.removeCallbacks(butAttack2)
+        handler.removeCallbacks(butAttack1)
+        handler.removeCallbacks(butUp)
+        handler.removeCallbacks(butLeft)
+        handler.removeCallbacks(butRight)
+        handler.removeCallbacks(butDown)
     }
 }

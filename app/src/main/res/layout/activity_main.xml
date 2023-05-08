@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -14,9 +13,10 @@
         android:id="@+id/izquierda"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:text="◀"
-        android:textSize="36dp"
-        android:paddingRight="24dp"
+        android:text="@string/left"
+        android:textSize="36sp"
+        android:paddingEnd="24dp"
+        android:paddingStart="16dp"
         android:background="@drawable/izquierda"
         />
 
@@ -29,23 +29,19 @@
             android:id="@+id/avanza"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="▲"
-            android:textSize="36dp"
+            android:text="@string/up"
+            android:textSize="36sp"
             android:paddingBottom="10dp"
             android:background="@drawable/izquierda" />
-        <Button
-            android:id="@+id/stop"
+        <Space
             android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:text="◙"
-            android:textSize="36dp"
-            android:background="@drawable/izquierda" />
+            android:layout_height="80dp"/>
         <Button
             android:id="@+id/atras"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="▼"
-            android:textSize="36dp"
+            android:text="@string/down"
+            android:textSize="36sp"
             android:paddingTop="10dp"
             android:background="@drawable/izquierda" />
     </LinearLayout>
@@ -54,9 +50,10 @@
         android:id="@+id/derecha"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:text="▶"
-        android:textSize="36dp"
-        android:paddingLeft="24dp"
+        android:text="@string/right"
+        android:textSize="36sp"
+        android:paddingStart="24dp"
+        android:paddingEnd="16dp"
         android:background="@drawable/izquierda"
         />
 
@@ -74,8 +71,8 @@
             android:id="@+id/bluetooth"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="BT"
-            android:textSize="24dp"
+            android:text="@string/bluetooth"
+            android:textSize="24sp"
             android:background="@drawable/izquierda"
             />
         <Space
@@ -85,8 +82,8 @@
             android:id="@+id/rgb"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="RGB"
-            android:textSize="20dp"
+            android:text="@string/leds"
+            android:textSize="20sp"
             android:background="@drawable/izquierda"/>
     </LinearLayout>
 
@@ -107,8 +104,8 @@
             android:id="@+id/ataque1"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="A"
-            android:textSize="36dp"
+            android:text="@string/atk1"
+            android:textSize="36sp"
             android:background="@drawable/izquierda"/>
     </LinearLayout>
 
@@ -122,8 +119,8 @@
             android:id="@+id/ataque2"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:text="B"
-            android:textSize="36dp"
+            android:text="@string/atk2"
+            android:textSize="36sp"
             android:background="@drawable/izquierda"
             />
         <Space
