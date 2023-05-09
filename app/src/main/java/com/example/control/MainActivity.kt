@@ -3,48 +3,32 @@ package com.example.control
 import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private val DEVICE_ADDRESS = "34:43:01:05:90:22" // Dirección MAC del dispositivo Bluetooth
-    private val PORT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // Identificador UUID para el servicio SPP (Serial Port Profile)
+    private val PORT_UUID =
+        UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // Identificador UUID para el servicio SPP (Serial Port Profile)
     val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(DEVICE_ADDRESS)
     private var socket: BluetoothSocket? = null
     private lateinit var btnConnect: Button
 
     private val handler = Handler()
 
-    private val butAttack1 = object : Runnable {
-        override fun run() {
-            sendCommand("1")
-            handler.postDelayed(this, 10)
-            println("Ataque 1")
-        }
-    }
-
-    private val butAttack2 = object : Runnable {
-        override fun run() {
-            sendCommand("2")
-            handler.postDelayed(this, 10)
-            println("Ataque 2")
-        }
-    }
 
     private val butLeft = object : Runnable {
         override fun run() {
@@ -100,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     handler.removeCallbacks(butUp)
+                    sendCommand("P")
                     true
                 }
                 else -> false
@@ -114,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     handler.removeCallbacks(butLeft)
+                    sendCommand("P")
                     true
                 }
                 else -> false
@@ -128,6 +114,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     handler.removeCallbacks(butDown)
+                    sendCommand("P")
                     true
                 }
                 else -> false
@@ -142,45 +129,21 @@ class MainActivity : AppCompatActivity() {
                 }
                 MotionEvent.ACTION_UP -> {
                     handler.removeCallbacks(butRight)
+                    sendCommand("P")
                     true
                 }
                 else -> false
             }
         }
 
-        val btn5 = findViewById<Button>(R.id.rgb)
-        btn5.setOnClickListener { v: View -> sendCommand("L") }
-
+        val rgb = findViewById<Button>(R.id.rgb)
+        rgb.setOnClickListener { v: View -> sendCommand("L") }
 
         val atk1 = findViewById<Button>(R.id.ataque1)
-        atk1.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    handler.postDelayed(butAttack1, 10)
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    handler.removeCallbacks(butAttack1)
-                    true
-                }
-                else -> false
-            }
-        }
+        atk1.setOnClickListener { v: View -> sendCommand("1") }
 
         val atk2 = findViewById<Button>(R.id.ataque2)
-        atk2.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    handler.postDelayed(butAttack2, 10)
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    handler.removeCallbacks(butAttack2)
-                    true
-                }
-                else -> false
-            }
-        }
+        atk2.setOnClickListener { v: View -> sendCommand("2") }
 
 
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -190,14 +153,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun connect() {
         try {
-            if (ActivityCompat.checkSelfPermission(
+            /*if (ActivityCompat.checkSelfPermission(
                     this,
                     Manifest.permission.BLUETOOTH_CONNECT
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                Toast.makeText(applicationContext, "No permission", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "No permission", Toast.LENGTH_SHORT).show()
                 return
-            }
+            }*/
             socket = device.createRfcommSocketToServiceRecord(PORT_UUID)
 
             socket?.connect()
@@ -217,7 +180,7 @@ class MainActivity : AppCompatActivity() {
 
         try {
             socket?.outputStream?.write(command.toByteArray())
-            Toast.makeText(applicationContext, "Command sent: $command", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(applicationContext, "Command sent: $command", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             Log.e(TAG, "Error sending command: ${e.message}")
             Toast.makeText(applicationContext, "Error sending command: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -235,8 +198,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        handler.removeCallbacks(butAttack2)
-        handler.removeCallbacks(butAttack1)
         handler.removeCallbacks(butUp)
         handler.removeCallbacks(butLeft)
         handler.removeCallbacks(butRight)
